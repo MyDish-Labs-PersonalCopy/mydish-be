@@ -127,19 +127,13 @@ router.delete(
   }
 );
 
-//terminate all users
-router.delete(
-  `/users`,
-  m.validate.token,
-  m.validate.admin,
-  async (req, res) => {
-    try {
-      await model.remove_all();
-      res.status(200).json("All users have been eliminated.");
-    } catch (err) {
-      res.status(500).json(err.detail);
-    }
+//validate a token
+router.post("/verify", m.validate.token, (request, response) => {
+  try {
+    response.status(200).json({ message: "ok then", valid: true });
+  } catch (error) {
+    response.status(500).json({ ...error });
   }
-);
+});
 
 module.exports = router;
